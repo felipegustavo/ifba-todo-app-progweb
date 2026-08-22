@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+    
+    <main class="container">
+        <h1>Lista de Tarefas</h1>
+
+        <p class="mensagem sucesso" th:if="${mensagem}" th:text="${mensagem}"></p>
+        <p class="mensagem erro" th:if="${erro}" th:text="${erro}"></p>
+
+        <form class="formulario" th:action="@{/tarefas/salvar}" th:object="${tarefa}" method="post">
+            <input type="hidden" th:field="*{id}">
+
+            <div class="campo">
+                <label for="titulo">Título</label>
+                <input  id="titulo"
+                        type="text"
+                        th:field="*{titulo}"
+                        maxlength="50"
+                        minlength="10"
+                        placeholder="Título da tarefa">
+                <small  class="erro-campo"
+                        th:if="${#fields.hasErrors('titulo')}"
+                        th:errors="*{titulo}"></small>
+            </div>
+
+            <div class="campo">
+                <label for="descricao">Descrição</label>
+                <textarea
+                            id="descricao"
+                            th:field="*{descricao}"
+                            placeholder="Descrição da tarefa"></textarea>
+                <small  class="erro-campo"
+                        th:if="${#fields.hasErrors('descricao')}"
+                        th:errors="*{descricao}"></small>
+            </div>
+
+            <div class="campo">
+                <label for="status">Status</label>
+
+                <select th:field="*{status}">
+                    <option th:value="''">Selecione uma opção</option>
+                    <option th:value="'TODO'">Para Fazer</option>
+                    <option th:value="'DOING'">Fazendo</option>
+                    <option th:value="'DONE'">Feito</option>
+                </select>
+
+                <small  class="erro-campo"
+                        th:if="${#fields.hasErrors('status')}"
+                        th:errors="*{status}"></small>
+            </div>
+
+            <div class="acoes-formulario">
+                <button type="submit" th:text="${tarefa.id == null ? 'Adicionar' : 'Salvar Alterações'}"></button>
+                <button class="botao secundario" th:if="${tarefa.id != null}" th:href="@{/tarefas}">Cancelar</button>
+            </div>
+        </form>
+
+        <div class="tabela-responsiva">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Título</th>
+                        <th>Descrição</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr
+                            th:each="item : ${tarefas}"
+                            th:classappend="${item.status == 'DONE' ? 'concluida' : ''}">
+                        <td th:text="${item.id}"></td>
+                        <td th:text="${item.titulo}"></td>
+                        <td th:text="${item.descricao}"></td>
+                        <td th:text="${item.textoStatus}"></td>
+                        <td class="acoes-tabela">
+                            <a class="botao pequeno editar" th:href="@{/tarefas/alterar/{id}(id=${item.id})}">Editar</a>
+                            <form th:action="@{/tarefas/excluir/{id}(id=${item.id})}" method="post">
+                                 <button class="botao pequeno excluir" type="submit">Excluir</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(tarefas)}">
+                        <td class="vazio" colspan="5">Nenhuma Tarafe Cadastrada</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+</body>
+</html>
