@@ -41,24 +41,9 @@
                         th:errors="*{descricao}"></small>
             </div>
 
-            <div class="campo">
-                <label for="status">Status</label>
-
-                <select th:field="*{status}">
-                    <option th:value="''">Selecione uma opção</option>
-                    <option th:value="'TODO'">Para Fazer</option>
-                    <option th:value="'DOING'">Fazendo</option>
-                    <option th:value="'DONE'">Feito</option>
-                </select>
-
-                <small  class="erro-campo"
-                        th:if="${#fields.hasErrors('status')}"
-                        th:errors="*{status}"></small>
-            </div>
-
             <div class="acoes-formulario">
                 <button type="submit" th:text="${tarefa.id == null ? 'Adicionar' : 'Salvar Alterações'}"></button>
-                <button class="botao secundario" th:if="${tarefa.id != null}" th:href="@{/tarefas}">Cancelar</button>
+                <a class="botao secundario" th:if="${tarefa.id != null}" th:href="@{/tarefas}">Cancelar</a>
             </div>
         </form>
 
@@ -69,19 +54,15 @@
                         <th>ID</th>
                         <th>Título</th>
                         <th>Descrição</th>
-                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr
-                            th:each="item : ${tarefas}"
-                            th:classappend="${item.status == 'DONE' ? 'concluida' : ''}">
+                    <tr th:each="item : ${tarefas}">
                         <td th:text="${item.id}"></td>
                         <td th:text="${item.titulo}"></td>
                         <td th:text="${item.descricao}"></td>
-                        <td th:text="${item.textoStatus}"></td>
                         <td class="acoes-tabela">
                             <a class="botao pequeno editar" th:href="@{/tarefas/alterar/{id}(id=${item.id})}">Editar</a>
                             <form th:action="@{/tarefas/excluir/{id}(id=${item.id})}" method="post">
