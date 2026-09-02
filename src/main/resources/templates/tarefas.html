@@ -65,7 +65,9 @@
                         <td th:text="${item.descricao}"></td>
                         <td class="acoes-tabela">
                             <a class="botao pequeno editar" th:href="@{/tarefas/alterar/{id}(id=${item.id})}">Editar</a>
-                            <form th:action="@{/tarefas/excluir/{id}(id=${item.id})}" method="post">
+                            <form th:action="@{/tarefas/excluir/{id}(id=${item.id})}"
+                                onsubmit="return confirm('Deseja apagar?')"
+                                method="post">
                                  <button class="botao pequeno excluir" type="submit">Excluir</button>
                             </form>
                         </td>
