@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <main class="container home">
+        <h1>Bem-vindo ao Todo App</h1>
+
+        <p>
+            Este é um aplicativo de exemplo desenvolvido para a disciplina de
+            Programação Web.
+        </p>
+
+        <a class="botao" th:href="@{/tarefas}">Acessar tarefas</a>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

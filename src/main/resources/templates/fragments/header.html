@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="pt" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header class="cabecalho" th:fragment="header">
+        <div class="cabecalho-conteudo">
+            <a class="marca" th:href="@{/tarefas}">Todo App</a>
+            <nav class="menu-principal" aria-label="Menu principal">
+                <a th:href="@{/tarefas}">Tarefas</a>
+            </nav>
+        </div>
+    </header>
+</body>
+</html>
