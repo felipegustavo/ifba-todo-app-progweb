@@ -9,14 +9,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.todo_app_thymeleaf_2.TarefaService;
 import com.example.todo_app_thymeleaf_2.dto.TarefaDTO;
+import com.example.todo_app_thymeleaf_2.service.StatusService;
+import com.example.todo_app_thymeleaf_2.service.TarefaService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 
@@ -25,7 +24,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class TarefaController {
 
-    private final TarefaService service;
+    private final TarefaService tarefaService;
+    private final StatusService statusService;
 
     @GetMapping({"", "/listar"})
     public String listar(Model model) {
@@ -45,9 +45,9 @@ public class TarefaController {
         }
 
         if (tarefa.getId() != null) {
-            service.atualizarTarefa(tarefa);
+            tarefaService.atualizarTarefa(tarefa);
         } else {
-            service.criarTarefa(tarefa);
+            tarefaService.criarTarefa(tarefa);
         }
 
         redirectAttributes.addFlashAttribute("mensagem", "Tarefa criada com sucesso.");
@@ -58,7 +58,7 @@ public class TarefaController {
     public String editar(@PathVariable Long id,
                         Model model,
                         RedirectAttributes redirectAttributes) {
-        var tarefa = this.service.buscarTarefa(id);
+        var tarefa = this.tarefaService.buscarTarefa(id);
 
         if (tarefa == null) {
             redirectAttributes.addFlashAttribute("erro", "Tarefa não existe no banco.");
@@ -74,22 +74,23 @@ public class TarefaController {
     public String excluir(@PathVariable Long id,
                         Model model,
                         RedirectAttributes redirectAttributes) {
-        var tarefa = this.service.buscarTarefa(id);
+        var tarefa = this.tarefaService.buscarTarefa(id);
 
         if (tarefa == null) {
             redirectAttributes.addFlashAttribute("erro", "Tarefa não existe no banco.");
             return "redirect:/tarefas/listar";
         }
 
-        service.apagarTarefa(id);
+        tarefaService.apagarTarefa(id);
         redirectAttributes.addFlashAttribute("mensagem", "Tarefa excluida com sucesso.");
         return "redirect:/tarefas/listar";
     }
     
 
     private void carregarTarefas(Model model) {
-        var tarefas = service.buscarTarefas();
+        var tarefas = tarefaService.buscarTarefas();
         model.addAttribute("tarefas", tarefas);
+        model.addAttribute("listaStatus", statusService.listar());
     }
 
 }

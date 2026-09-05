@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Erro | Todo App</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+
+    <main class="container pagina-erro">
+        <p class="codigo-erro" th:if="${status != null}">
+            Erro <span th:text="${status}">500</span>
+        </p>
+
+        <div th:switch="${status}">
+            <th:block th:case="404">
+                <h1>Página não encontrada</h1>
+                <p>A página que você tentou acessar não existe ou foi removida. Confira o endereço ou volte para suas tarefas.</p>
+            </th:block>
+            <th:block th:case="403">
+                <h1>Acesso negado</h1>
+                <p>Você não tem permissão para acessar esta página.</p>
+            </th:block>
+            <th:block th:case="500">
+                <h1>Algo deu errado</h1>
+                <p>Ocorreu um problema ao processar sua solicitação. Tente novamente em alguns instantes.</p>
+            </th:block>
+            <th:block th:case="*">
+                <h1>Não foi possível concluir a solicitação</h1>
+                <p>Confira o endereço e tente novamente. Você também pode voltar à página inicial.</p>
+            </th:block>
+        </div>
+
+        <nav class="acoes-erro" aria-label="Navegação após o erro">
+            <a class="botao" th:href="@{/tarefas}">Ir para tarefas</a>
+            <a class="botao secundario" th:href="@{/}">Voltar ao início</a>
+        </nav>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+</body>
+</html>

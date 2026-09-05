@@ -1,0 +1,3 @@
+2026-09-04 22:01:46.451429-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "insert [*]tb_status(id, nome) values ('1', 'Para Fazer'), ('2', 'Fazendo'), ('3', 'Feito')"; expected "INTO"; SQL statement:
+insert tb_status(id, nome) values ('1', 'Para Fazer'), ('2', 'Fazendo'), ('3', 'Feito') [42001-240]

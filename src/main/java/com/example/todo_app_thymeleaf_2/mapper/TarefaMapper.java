@@ -1,6 +1,7 @@
 package com.example.todo_app_thymeleaf_2.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import com.example.todo_app_thymeleaf_2.dto.TarefaDTO;
 import com.example.todo_app_thymeleaf_2.entity.TarefaEntity;
@@ -10,6 +11,7 @@ public interface TarefaMapper {
 
     TarefaEntity toEntity(TarefaDTO dto);
 
+    @Mapping(source = "status.id", target = "statusId")
     TarefaDTO toDto(TarefaEntity entity);
 
 }

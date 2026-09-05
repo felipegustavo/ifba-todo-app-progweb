@@ -42,6 +42,18 @@
                         th:errors="*{descricao}"></small>
             </div>
 
+            <div class="campo">
+                <label for="status">Status</label>
+
+                <select id="status" th:field="*{statusId}">
+                    <option th:each="item : ${listaStatus}"
+                        th:value="${item.id}" th:text="${item.nome}"></option>
+                </select>
+                <small  class="erro-campo"
+                        th:if="${#fields.hasErrors('statusId')}"
+                        th:errors="*{status}"></small>
+            </div>
+
             <div class="acoes-formulario">
                 <button type="submit" th:text="${tarefa.id == null ? 'Adicionar' : 'Salvar Alterações'}"></button>
                 <a class="botao secundario" th:if="${tarefa.id != null}" th:href="@{/tarefas}">Cancelar</a>
@@ -55,6 +67,7 @@
                         <th>ID</th>
                         <th>Título</th>
                         <th>Descrição</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -64,6 +77,7 @@
                         <td th:text="${item.id}"></td>
                         <td th:text="${item.titulo}"></td>
                         <td th:text="${item.descricao}"></td>
+                        <td th:text="${item.status.nome}"></td>
                         <td class="acoes-tabela">
                             <a class="botao pequeno editar" th:href="@{/tarefas/alterar/{id}(id=${item.id})}">Editar</a>
                             <form th:action="@{/tarefas/excluir/{id}(id=${item.id})}"
